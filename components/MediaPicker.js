@@ -57,11 +57,17 @@ class MediaPicker extends Component {
 
     let previewContent;
     if(selectedIndex >= 0 && selectedIndex < media.length) {
-      previewContent = (
-        <Video source={{uri: media[selectedIndex].image.uri}}
-             onError={this.videoError}
-             style={styles.videoPreview} />
-      );
+      let selectedItem = media[selectedIndex];
+      if(selectedItem.type === 'ALAssetTypePhoto') {
+        previewContent = <Image source={{uri: selectedItem.image.uri}}
+                          style={styles.videoPreview} />;
+      } else if(selectedItem.type === 'ALAssetTypeVideo') {
+        previewContent = (
+          <Video source={{uri: selectedItem.image.uri}}
+               onError={this.videoError}
+               style={styles.videoPreview} />
+        );
+      }
     } else if(selectedIndex === -1) {
       previewContent = (
         <Text style={styles.selectVideoText}>Select a video or picture to keep it for today.</Text>
